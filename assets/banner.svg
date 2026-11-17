@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
+<title id="t">probable-cause</title>
+<desc id="d">Mural de investigação com fotos de suspeitos ligadas por fios vermelhos</desc>
+<rect width="1280" height="420" fill="#0a0a0a"/>
+<rect x="10" y="10" width="1260" height="400" fill="none" stroke="#222222" stroke-width="4"/>
+<g stroke="#e24b4a" stroke-width="2.5" fill="none" stroke-linecap="round">
+<path d="M625 62 L875 48"/><path d="M875 48 L1125 82"/><path d="M625 62 L745 247"/><path d="M745 247 L1015 252"/><path d="M1015 252 L1125 82"/><path d="M875 48 L1015 252"/></g>
+<g font-family="Georgia, 'Times New Roman', serif" text-anchor="middle">
+<g transform="translate(540 50) rotate(-4 85 60)"><rect width="170" height="120" fill="#fafafa"/><rect x="14" y="26" width="142" height="48" fill="#e4e4e4"/><text x="85" y="58" font-size="22" fill="#111111">Yuki</text><text x="85" y="96" font-size="14" fill="#6b6b6b" font-family="monospace">Norte · manhã</text></g>
+<g transform="translate(790 36) rotate(3 85 60)"><rect width="170" height="120" fill="#fafafa"/><rect x="14" y="26" width="142" height="48" fill="#e4e4e4"/><text x="85" y="58" font-size="22" fill="#111111">Nao F.</text><text x="85" y="96" font-size="14" fill="#c0302f" font-family="monospace">preso por engano</text></g>
+<g transform="translate(1040 70) rotate(5 85 60)"><rect width="170" height="120" fill="#fafafa"/><rect x="14" y="26" width="142" height="48" fill="#e4e4e4"/><text x="85" y="62" font-size="28" fill="#6b6b6b">?</text><text x="85" y="96" font-size="14" fill="#6b6b6b" font-family="monospace">Centro · noite</text></g>
+<g transform="translate(660 235) rotate(-3 85 60)"><rect width="170" height="120" fill="#fafafa"/><rect x="14" y="26" width="142" height="48" fill="#e4e4e4"/><text x="85" y="62" font-size="28" fill="#6b6b6b">?</text><text x="85" y="96" font-size="14" fill="#6b6b6b" font-family="monospace">Sul · tarde</text></g>
+<g transform="translate(930 240) rotate(4 85 60)"><rect width="170" height="120" fill="#fafafa" stroke="#e24b4a" stroke-width="3"/><rect x="14" y="26" width="142" height="48" fill="#e4e4e4"/><text x="85" y="62" font-size="28" fill="#c0302f">você?</text><text x="85" y="96" font-size="14" fill="#c0302f" font-family="monospace">escondida</text></g></g>
+<g fill="#e24b4a" stroke="#7a1f1e" stroke-width="1.5"><circle cx="625" cy="62" r="7"/><circle cx="875" cy="48" r="7"/><circle cx="1125" cy="82" r="7"/><circle cx="745" cy="247" r="7"/><circle cx="1015" cy="252" r="7"/></g>
+<g font-family="Consolas, 'Courier New', monospace">
+<text x="60" y="140" font-size="15" fill="#9a9a9a" letter-spacing="4">CASO Nº 12</text>
+<text x="60" y="205" font-size="54" fill="#f2f2f2">probable-cause</text>
+<text x="60" y="252" font-size="20" fill="#cfcfcf">12 civis. 1 é você. 1 detetive que calcula.</text>
+<text x="60" y="288" font-size="16" fill="#8a8a8a">jogo de dedução com IA bayesiana</text>
+<text x="60" y="372" font-size="14" fill="#8a8a8a">React · TypeScript · Tailwind · Vitest</text></g>
+</svg>
