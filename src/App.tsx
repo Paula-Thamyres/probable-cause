@@ -29,7 +29,7 @@ export default function App() {
     <main className="min-h-screen bg-black p-4 text-neutral-300 md:p-8">
       <header className="mb-6 font-mono">
         <h1 className="text-2xl text-neutral-200">probable-cause</h1>
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-neutral-400">
           Você é {player.name} | Meta: eliminar {TARGETS_TO_WIN} alvos antes que o detetive descubra
           quem você é.
         </p>

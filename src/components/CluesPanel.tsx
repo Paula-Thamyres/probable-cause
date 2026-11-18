@@ -10,7 +10,7 @@ export function CluesPanel({ clues }: CluesPanelProps) {
   return (
     <TerminalPanel title="PISTAS">
       {clues.length === 0 ? (
-        <p className="text-neutral-500">Nenhuma pista deixada.</p>
+        <p className="text-neutral-400">Nenhuma pista deixada.</p>
       ) : (
         <ol className="space-y-1">
           {clues.map((clue, index) => (
