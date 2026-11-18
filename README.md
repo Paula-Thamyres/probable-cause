@@ -62,10 +62,11 @@ src/
   data/         os 12 civis e os textos em português, inclusive as frases do registro
   hooks/        useGame
   components/   TerminalPanel, DetectivePanel, Notebook, CluesPanel, ActionBar, EventLog
+  test/         preparação dos testes de interface (jsdom)
   App.tsx       layout, modo difícil e mensagem de fim de jogo
 ```
 
-As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 81 testes em 12 arquivos, ao lado do código (`*.test.ts`).
+As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 94 testes em 14 arquivos, ao lado do código (`*.test.ts` e `*.test.tsx`). Os de lógica cobrem regras e IA, e os de interface, feitos com Testing Library, cobrem o painel REGISTRO e os botões de ação.
 
 ## 5. Como rodar
 
@@ -96,9 +97,11 @@ Saída do `npm test`:
  ✓ src/game/events.test.ts (8 tests)
  ✓ src/game/actions.test.ts (16 tests)
  ✓ src/game/outcome.test.ts (5 tests)
+ ✓ src/components/EventLog.test.tsx (5 tests)
+ ✓ src/components/ActionBar.test.tsx (8 tests)
 
- Test Files  12 passed (12)
-      Tests  81 passed (81)
+ Test Files  14 passed (14)
+      Tests  94 passed (94)
 ```
 
 O GitHub Actions roda lint, testes e build a cada envio para a `main`. O resultado aparece no selo do topo.
