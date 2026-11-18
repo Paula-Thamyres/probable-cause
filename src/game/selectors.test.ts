@@ -48,3 +48,11 @@ describe('selectors', () => {
     expect(ids).not.toContain(PLAYER_ID)
   })
 })
+
+describe('getPlayer', () => {
+  it('rejects a state whose player is not among the civilians', () => {
+    const state = { ...buildState(), playerId: 'ghost' }
+
+    expect(() => getPlayer(state)).toThrow('Unknown player civilian')
+  })
+})
