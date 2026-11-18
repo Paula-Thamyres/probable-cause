@@ -35,8 +35,8 @@ describe('relaxBeliefs', () => {
   })
 
   it('rejects a rate outside 0 to 1', () => {
-    expect(() => relaxBeliefs({ a: 1 }, -0.1)).toThrow()
-    expect(() => relaxBeliefs({ a: 1 }, 1.1)).toThrow()
+    expect(() => relaxBeliefs({ a: 1 }, -0.1)).toThrow('between 0 and 1')
+    expect(() => relaxBeliefs({ a: 1 }, 1.1)).toThrow('between 0 and 1')
   })
 
   it('moves every belief toward an even split', () => {
