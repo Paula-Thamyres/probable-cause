@@ -56,14 +56,14 @@ Limitação conhecida: os pontos vigiados aparecem na tela antes da sua jogada, 
 ```
 src/
   ai/           crenças, atualização bayesiana, álibi e detetive que vigia
-  game/         regras, estado, ações, acusação e nível de alerta
-  data/         os 12 civis e os textos em português
+  game/         regras, estado, ações, acusação, registro de jogadas e nível de alerta
+  data/         os 12 civis e os textos em português, inclusive as frases do registro
   hooks/        useGame
-  components/   TerminalPanel, DetectivePanel, Notebook, CluesPanel, ActionBar
+  components/   TerminalPanel, DetectivePanel, Notebook, CluesPanel, ActionBar, EventLog
   App.tsx       layout, modo difícil e mensagem de fim de jogo
 ```
 
-As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 67 testes em 10 arquivos, ao lado do código (`*.test.ts`).
+As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 81 testes em 12 arquivos, ao lado do código (`*.test.ts`).
 
 ## 5. Como rodar
 
@@ -88,13 +88,15 @@ Saída do `npm test`:
  ✓ src/ai/detective.test.ts (6 tests)
  ✓ src/game/state.test.ts (3 tests)
  ✓ src/game/selectors.test.ts (5 tests)
+ ✓ src/data/eventMessages.test.ts (6 tests)
  ✓ src/game/watch.test.ts (7 tests)
  ✓ src/game/accusation.test.ts (8 tests)
+ ✓ src/game/events.test.ts (8 tests)
  ✓ src/game/actions.test.ts (16 tests)
  ✓ src/game/outcome.test.ts (5 tests)
 
- Test Files  10 passed (10)
-      Tests  67 passed (67)
+ Test Files  12 passed (12)
+      Tests  81 passed (81)
 ```
 
 ---
