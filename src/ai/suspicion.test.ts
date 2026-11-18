@@ -52,7 +52,9 @@ describe('updateBeliefs', () => {
   })
 
   it('rejects beliefs with no remaining probability', () => {
-    expect(() => updateBeliefs({}, CIVILIANS, NIGHT_DOWNTOWN_CLUE)).toThrow('without positive weight')
+    expect(() => updateBeliefs({}, CIVILIANS, NIGHT_DOWNTOWN_CLUE)).toThrow(
+      'without positive weight',
+    )
   })
 })
 
@@ -68,7 +70,12 @@ describe('watched clues', () => {
 })
 
 const LOCAL: Civilian = { id: 'local', name: 'Local', region: 'centro', freeShifts: ['noite'] }
-const OUTSIDER: Civilian = { id: 'outsider', name: 'Outsider', region: 'norte', freeShifts: ['manha'] }
+const OUTSIDER: Civilian = {
+  id: 'outsider',
+  name: 'Outsider',
+  region: 'norte',
+  freeShifts: ['manha'],
+}
 
 describe('clueLikelihood', () => {
   it('multiplies the region and shift likelihoods', () => {
@@ -86,7 +93,11 @@ describe('clueLikelihood', () => {
 
 describe('updateBeliefs with known numbers', () => {
   it('matches the posterior computed by hand with Bayes rule', () => {
-    const updated = updateBeliefs({ local: 0.5, outsider: 0.5 }, [LOCAL, OUTSIDER], NIGHT_DOWNTOWN_CLUE)
+    const updated = updateBeliefs(
+      { local: 0.5, outsider: 0.5 },
+      [LOCAL, OUTSIDER],
+      NIGHT_DOWNTOWN_CLUE,
+    )
     const expected = (0.5 * 0.63) / (0.5 * 0.63 + 0.5 * 0.0075)
 
     expect(beliefOf(updated, 'local')).toBeCloseTo(expected, 8)

@@ -19,10 +19,7 @@ export function applyAlibi(beliefs: Beliefs, suspectId: string): Beliefs {
   return normalizeBeliefs(weights)
 }
 
-export function relaxBeliefs(
-  beliefs: Beliefs,
-  rate: number = DEFAULT_RELAX_RATE,
-): Beliefs {
+export function relaxBeliefs(beliefs: Beliefs, rate: number = DEFAULT_RELAX_RATE): Beliefs {
   if (rate < 0 || rate > 1) {
     throw new Error('Relax rate must be between 0 and 1')
   }

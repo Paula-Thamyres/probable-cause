@@ -108,21 +108,29 @@ describe('countermeasures', () => {
   })
 
   it('rejects framing the player', () => {
-    expect(() =>
-      applyAction(newGame(), { type: 'frame', civilianId: PLAYER_ID }),
-    ).toThrow('cannot target themselves')
+    expect(() => applyAction(newGame(), { type: 'frame', civilianId: PLAYER_ID })).toThrow(
+      'cannot target themselves',
+    )
   })
 })
 
 describe('game outcome', () => {
   it('is won after eliminating enough targets', () => {
-    const state = applyAction(oneKillFromVictory(), { type: 'eliminate', targetId: 'yuki', shift: 'noite' })
+    const state = applyAction(oneKillFromVictory(), {
+      type: 'eliminate',
+      targetId: 'yuki',
+      shift: 'noite',
+    })
 
     expect(state.status).toBe('won')
   })
 
   it('is lost when the detective becomes certain', () => {
-    const state = applyAction(corneredState(), { type: 'eliminate', targetId: 'nao', shift: 'manha' })
+    const state = applyAction(corneredState(), {
+      type: 'eliminate',
+      targetId: 'nao',
+      shift: 'manha',
+    })
 
     expect(state.status).toBe('lost')
   })

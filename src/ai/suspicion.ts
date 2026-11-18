@@ -33,15 +33,10 @@ export function clueLikelihood(civilian: Civilian, clue: Clue): number {
   const regionMismatch = clue.watched
     ? WATCHED_REGION_MISMATCH_LIKELIHOOD
     : REGION_MISMATCH_LIKELIHOOD
-  const shiftBusy = clue.watched
-    ? WATCHED_SHIFT_BUSY_LIKELIHOOD
-    : SHIFT_BUSY_LIKELIHOOD
+  const shiftBusy = clue.watched ? WATCHED_SHIFT_BUSY_LIKELIHOOD : SHIFT_BUSY_LIKELIHOOD
 
-  const regionWeight =
-    civilian.region === clue.region ? REGION_MATCH_LIKELIHOOD : regionMismatch
-  const shiftWeight = civilian.freeShifts.includes(clue.shift)
-    ? SHIFT_FREE_LIKELIHOOD
-    : shiftBusy
+  const regionWeight = civilian.region === clue.region ? REGION_MATCH_LIKELIHOOD : regionMismatch
+  const shiftWeight = civilian.freeShifts.includes(clue.shift) ? SHIFT_FREE_LIKELIHOOD : shiftBusy
 
   return regionWeight * shiftWeight
 }

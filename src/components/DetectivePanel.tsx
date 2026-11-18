@@ -49,9 +49,7 @@ export function DetectivePanel({
               {civilian.name}
               {civilian.id === playerId && ' (você)'}
             </span>
-            <span>
-              {hardMode ? '' : `[${renderBar(belief)}] ${toPercent(belief)}%`}
-            </span>
+            <span>{hardMode ? '' : `[${renderBar(belief)}] ${toPercent(belief)}%`}</span>
           </li>
         ))}
       </ul>

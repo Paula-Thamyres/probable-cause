@@ -26,8 +26,7 @@ export function getArrested(state: GameState): Civilian[] {
 export function getActiveCivilians(state: GameState): Civilian[] {
   return state.civilians.filter(
     (civilian) =>
-      !state.eliminatedIds.includes(civilian.id) &&
-      !state.arrestedIds.includes(civilian.id),
+      !state.eliminatedIds.includes(civilian.id) && !state.arrestedIds.includes(civilian.id),
   )
 }
 

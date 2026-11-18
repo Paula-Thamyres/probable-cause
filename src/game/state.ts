@@ -21,10 +21,7 @@ export interface GameState {
   status: GameStatus
 }
 
-export function createInitialState(
-  civilians: readonly Civilian[],
-  playerId: string,
-): GameState {
+export function createInitialState(civilians: readonly Civilian[], playerId: string): GameState {
   if (!civilians.some((civilian) => civilian.id === playerId)) {
     throw new Error(`Unknown player civilian: ${playerId}`)
   }

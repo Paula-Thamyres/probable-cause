@@ -138,7 +138,11 @@ export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps)
         <ActionButton label="Álibi" disabled={disabled} onClick={() => onPlay({ type: 'alibi' })} />
       </div>
       <div className={ROW_STYLE}>
-        <ActionButton label="Esperar" disabled={disabled} onClick={() => onPlay({ type: 'wait' })} />
+        <ActionButton
+          label="Esperar"
+          disabled={disabled}
+          onClick={() => onPlay({ type: 'wait' })}
+        />
       </div>
     </TerminalPanel>
   )

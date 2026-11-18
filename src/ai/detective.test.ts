@@ -4,9 +4,7 @@ import { WATCH_COUNT, chooseWatches } from './detective'
 import type { Beliefs } from './suspicion'
 
 function certainAbout(id: string): Beliefs {
-  return Object.fromEntries(
-    CIVILIANS.map((civilian) => [civilian.id, civilian.id === id ? 1 : 0]),
-  )
+  return Object.fromEntries(CIVILIANS.map((civilian) => [civilian.id, civilian.id === id ? 1 : 0]))
 }
 
 describe('chooseWatches', () => {

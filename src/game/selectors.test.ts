@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CIVILIANS } from '../data/civilians'
-import {
-  getActiveCivilians,
-  getArrested,
-  getEliminated,
-  getPlayer,
-  getTargets,
-} from './selectors'
+import { getActiveCivilians, getArrested, getEliminated, getPlayer, getTargets } from './selectors'
 import { createInitialState } from './state'
 
 const PLAYER_ID = 'mei'
