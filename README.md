@@ -39,7 +39,7 @@ A suspeita é uma distribuição de probabilidade sobre os civis, atualizada pel
 
 $$\text{posterior} \propto \text{prior} \times \text{verossimilhança}$$
 
-A cada turno o detetive também escolhe um ponto para vigiar, entre 15 possíveis (5 regiões por 3 turnos). Uma pista deixada no ponto vigiado conta como testemunhada e pesa muito mais.
+A cada turno o detetive também escolhe 3 pontos para vigiar, entre 15 possíveis (5 regiões por 3 turnos), onde os suspeitos mais prováveis têm mais chance de agir. Uma pista deixada em qualquer ponto vigiado conta como testemunhada e pesa muito mais.
 
 Quando a suspeita sobre alguém chega a 90%, ele acusa. Se for você, o jogo acaba. Se for um inocente, a pessoa é presa, o detetive fica abalado e as crenças se espalham de novo.
 
@@ -47,7 +47,7 @@ Os valores usados no cálculo, como `REGION_MATCH_LIKELIHOOD`, ficam em `src/ai/
 
 Por que três civis empatam em 33%? Uma pista só identifica alguém quando o lugar e o turno são exclusivos dessa pessoa. Se três civis do Centro estão livres à noite, uma pista ali deixa os três com a mesma suspeita e ninguém é preso. Já a Yuki é a única do Norte livre de manhã, então uma pista nesse ponto aponta direto para ela.
 
-Limitação conhecida: desviar do ponto vigiado ainda é fácil, porque o detetive vigia 1 ponto entre 15.
+Limitação conhecida: os pontos vigiados aparecem na tela antes da sua jogada, então ainda dá para desviar deles. O número de pontos vigiados fica em `WATCH_COUNT`, em `src/ai/detective.ts`, para ajustar a dificuldade.
 
 ## 4. Arquitetura
 
@@ -63,7 +63,7 @@ src/
   App.tsx       layout, modo difícil e mensagem de fim de jogo
 ```
 
-As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 63 testes em 10 arquivos, ao lado do código (`*.test.ts`).
+As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 67 testes em 10 arquivos, ao lado do código (`*.test.ts`).
 
 ## 5. Como rodar
 
@@ -85,16 +85,16 @@ Saída do `npm test`:
  ✓ src/game/alert.test.ts (4 tests)
  ✓ src/ai/countermeasures.test.ts (6 tests)
  ✓ src/ai/suspicion.test.ts (7 tests)
- ✓ src/ai/detective.test.ts (3 tests)
+ ✓ src/ai/detective.test.ts (6 tests)
  ✓ src/game/state.test.ts (3 tests)
  ✓ src/game/selectors.test.ts (5 tests)
- ✓ src/game/watch.test.ts (6 tests)
+ ✓ src/game/watch.test.ts (7 tests)
  ✓ src/game/accusation.test.ts (8 tests)
  ✓ src/game/actions.test.ts (16 tests)
  ✓ src/game/outcome.test.ts (5 tests)
 
  Test Files  10 passed (10)
-      Tests  63 passed (63)
+      Tests  67 passed (67)
 ```
 
 ---
