@@ -6,6 +6,8 @@
 
 Jogo de dedução em que você é um civil escolhido ao acaso entre 12 e precisa se esconder de um detetive controlado por uma IA bayesiana, que recalcula a suspeita sobre cada civil a cada pista deixada.
 
+Jogue direto no navegador, sem instalar nada: [probable-cause-hazel.vercel.app](https://probable-cause-hazel.vercel.app/)
+
 ## 1. O jogo
 
 `suspeita sobre você: █░░░░░░░░░ 12%`
