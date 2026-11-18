@@ -19,3 +19,10 @@ export interface Slot {
 export interface Clue extends Slot {
   watched?: boolean
 }
+
+export type GameEvent =
+  | { type: 'eliminated'; turn: number; civilianId: string }
+  | { type: 'framed'; turn: number; civilianId: string }
+  | { type: 'alibi'; turn: number }
+  | { type: 'waited'; turn: number }
+  | { type: 'arrested'; turn: number; civilianId: string }

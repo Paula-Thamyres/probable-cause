@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ActionBar } from './components/ActionBar'
 import { CluesPanel } from './components/CluesPanel'
 import { DetectivePanel } from './components/DetectivePanel'
+import { EventLog } from './components/EventLog'
 import { Notebook } from './components/Notebook'
 import { CIVILIANS } from './data/civilians'
 import { getOutcome } from './game/outcome'
@@ -52,7 +53,7 @@ export default function App() {
         <Notebook eliminated={getEliminated(state)} goal={TARGETS_TO_WIN} turn={state.turn} />
         <CluesPanel clues={state.clues} />
       </div>
-      <div className="mt-4">
+      <div className="mt-4 grid gap-4 md:grid-cols-[1.4fr_1fr]">
         <ActionBar
           key={player.id}
           player={player}
@@ -60,6 +61,7 @@ export default function App() {
           disabled={result !== null}
           onPlay={play}
         />
+        <EventLog events={state.events} civilians={state.civilians} />
       </div>
       {error && (
         <p role="alert" className="mt-3 font-mono text-xs text-[#e24b4a]">

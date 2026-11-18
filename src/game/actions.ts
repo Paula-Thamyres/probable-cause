@@ -2,10 +2,11 @@ import { applyAlibi, relaxBeliefs } from '../ai/countermeasures'
 import { chooseWatches } from '../ai/detective'
 import { updateBeliefs } from '../ai/suspicion'
 import { resolveAccusation } from './accusation'
+import { withEvent } from './events'
 import { getActiveCivilians, getPlayer, getTargets } from './selectors'
 import { TARGETS_TO_WIN } from './state'
 import type { GameState, GameStatus } from './state'
-import type { Civilian, Clue, Shift, Slot } from './types'
+import type { Civilian, Clue, GameEvent, Shift, Slot } from './types'
 
 export const MAX_TURNS = 12
 
@@ -97,6 +98,19 @@ function wait(state: GameState): GameState {
   return { ...state, beliefs: relaxBeliefs(state.beliefs) }
 }
 
+function toEvent(action: Action, turn: number): GameEvent {
+  switch (action.type) {
+    case 'eliminate':
+      return { type: 'eliminated', turn, civilianId: action.targetId }
+    case 'frame':
+      return { type: 'framed', turn, civilianId: action.civilianId }
+    case 'alibi':
+      return { type: 'alibi', turn }
+    case 'wait':
+      return { type: 'waited', turn }
+  }
+}
+
 function performAction(state: GameState, action: Action): GameState {
   switch (action.type) {
     case 'eliminate':
@@ -148,5 +162,5 @@ function endTurn(state: GameState): GameState {
 
 export function applyAction(state: GameState, action: Action): GameState {
   assertPlaying(state)
-  return endTurn(performAction(state, action))
+  return endTurn(withEvent(performAction(state, action), toEvent(action, state.turn)))
 }

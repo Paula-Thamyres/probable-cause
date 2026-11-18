@@ -1,5 +1,6 @@
 import { relaxBeliefs } from '../ai/countermeasures'
 import { normalizeBeliefs } from '../ai/suspicion'
+import { withEvent } from './events'
 import type { GameState } from './state'
 
 export const ACCUSATION_THRESHOLD = 0.9
@@ -34,5 +35,9 @@ export function resolveAccusation(state: GameState): GameState {
     return { ...state, status: 'lost' }
   }
 
-  return resolveAccusation(arrest(state, suspectId))
+  const arrested = arrest(state, suspectId)
+
+  return resolveAccusation(
+    withEvent(arrested, { type: 'arrested', turn: state.turn, civilianId: suspectId }),
+  )
 }
