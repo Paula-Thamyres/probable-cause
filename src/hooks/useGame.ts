@@ -1,22 +1,15 @@
 import { useState } from 'react'
 import { applyAction } from '../game/actions'
 import type { Action } from '../game/actions'
-import { createInitialState } from '../game/state'
-import type { GameState } from '../game/state'
+import { GameError } from '../game/errors'
+import { startGame } from '../game/state'
 import type { Civilian } from '../game/types'
 
-function startGame(civilians: readonly Civilian[]): GameState {
-  const player = civilians[Math.floor(Math.random() * civilians.length)]
-
-  if (!player) {
-    throw new Error('Cannot start a game without civilians')
-  }
-
-  return createInitialState(civilians, player.id)
-}
+const INVALID_MOVE_MESSAGE = 'Essa jogada não é válida. Tente outra.'
+const UNEXPECTED_ERROR_MESSAGE = 'Algo deu errado. Tente de novo.'
 
 function describeError(error: unknown): string {
-  return error instanceof Error ? error.message : 'Unexpected error'
+  return error instanceof GameError ? INVALID_MOVE_MESSAGE : UNEXPECTED_ERROR_MESSAGE
 }
 
 export function useGame(civilians: readonly Civilian[]) {
@@ -28,6 +21,10 @@ export function useGame(civilians: readonly Civilian[]) {
       setState(applyAction(state, action))
       setError(null)
     } catch (caught) {
+      if (!(caught instanceof GameError)) {
+        console.error(caught)
+      }
+
       setError(describeError(caught))
     }
   }

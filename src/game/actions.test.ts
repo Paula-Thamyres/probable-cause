@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { createUniformBeliefs } from '../ai/suspicion'
 import type { Beliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
-import { MAX_TURNS, applyAction } from './actions'
-import { createInitialState } from './state'
+import { applyAction } from './actions'
+import { GameError } from './errors'
+import { MAX_TURNS, createInitialState } from './state'
 import type { GameState } from './state'
 
 const PLAYER_ID = 'ren'
@@ -158,5 +159,13 @@ describe('game outcome', () => {
     applyAction(game, { type: 'eliminate', targetId: 'takeshi', shift: 'noite' })
 
     expect(game).toEqual(snapshot)
+  })
+})
+
+describe('rule violations', () => {
+  it('are reported as GameError', () => {
+    const move = { type: 'eliminate', targetId: 'ghost', shift: 'manha' } as const
+
+    expect(() => applyAction(newGame(), move)).toThrow(GameError)
   })
 })

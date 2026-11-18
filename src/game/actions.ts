@@ -2,13 +2,12 @@ import { applyAlibi, relaxBeliefs } from '../ai/countermeasures'
 import { chooseWatches } from '../ai/detective'
 import { updateBeliefs } from '../ai/suspicion'
 import { resolveAccusation } from './accusation'
+import { GameError } from './errors'
 import { withEvent } from './events'
 import { getActiveCivilians, getPlayer, getTargets } from './selectors'
-import { TARGETS_TO_WIN } from './state'
+import { MAX_TURNS, TARGETS_TO_WIN } from './state'
 import type { GameState, GameStatus } from './state'
 import type { Civilian, Clue, GameEvent, Shift, Slot } from './types'
-
-export const MAX_TURNS = 12
 
 export type Action =
   | { type: 'eliminate'; targetId: string; shift: Shift }
@@ -18,7 +17,7 @@ export type Action =
 
 function assertPlaying(state: GameState): void {
   if (state.status !== 'playing') {
-    throw new Error('The game is already over')
+    throw new GameError('The game is already over')
   }
 }
 
@@ -26,19 +25,19 @@ function findTarget(state: GameState, id: string): Civilian {
   const civilian = state.civilians.find((candidate) => candidate.id === id)
 
   if (!civilian) {
-    throw new Error(`Unknown civilian: ${id}`)
+    throw new GameError(`Unknown civilian: ${id}`)
   }
 
   if (civilian.id === state.playerId) {
-    throw new Error('The player cannot target themselves')
+    throw new GameError('The player cannot target themselves')
   }
 
   if (state.eliminatedIds.includes(civilian.id)) {
-    throw new Error(`${civilian.name} is already eliminated`)
+    throw new GameError(`${civilian.name} is already eliminated`)
   }
 
   if (state.arrestedIds.includes(civilian.id)) {
-    throw new Error(`${civilian.name} is already arrested`)
+    throw new GameError(`${civilian.name} is already arrested`)
   }
 
   return civilian
@@ -60,7 +59,7 @@ function eliminate(state: GameState, targetId: string, shift: Shift): GameState 
   const target = findTarget(state, targetId)
 
   if (!getPlayer(state).freeShifts.includes(shift)) {
-    throw new Error(`The player is not free during ${shift}`)
+    throw new GameError(`The player is not free during ${shift}`)
   }
 
   const clue = makeClue(state, { region: target.region, shift })
@@ -78,7 +77,7 @@ function frame(state: GameState, civilianId: string): GameState {
   const [shift] = framed.freeShifts
 
   if (!shift) {
-    throw new Error(`${framed.name} has no free shift to be framed in`)
+    throw new GameError(`${framed.name} has no free shift to be framed in`)
   }
 
   const clue = makeClue(state, { region: framed.region, shift })

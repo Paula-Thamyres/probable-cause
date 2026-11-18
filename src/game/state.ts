@@ -4,6 +4,7 @@ import type { Beliefs } from '../ai/suspicion'
 import type { Civilian, Clue, GameEvent, Slot } from './types'
 
 export const TARGETS_TO_WIN = 5
+export const MAX_TURNS = 12
 
 export type GameStatus = 'playing' | 'won' | 'lost'
 
@@ -46,4 +47,17 @@ export function createInitialState(
     turn: 1,
     status: 'playing',
   }
+}
+
+export function startGame(
+  civilians: readonly Civilian[],
+  random: () => number = Math.random,
+): GameState {
+  const player = civilians[Math.floor(random() * civilians.length)]
+
+  if (!player) {
+    throw new Error('Cannot start a game without civilians')
+  }
+
+  return createInitialState(civilians, player.id)
 }

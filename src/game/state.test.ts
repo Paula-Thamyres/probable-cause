@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { CIVILIANS } from '../data/civilians'
-import { createInitialState } from './state'
+import { createInitialState, startGame } from './state'
 
 describe('createInitialState', () => {
   it('starts a playable game with uniform suspicion', () => {
@@ -21,5 +21,16 @@ describe('createInitialState', () => {
     expect(() => createInitialState(CIVILIANS.slice(0, 5), 'takeshi')).toThrow(
       'Not enough civilians',
     )
+  })
+})
+
+describe('startGame', () => {
+  it('picks the player from the injected random number', () => {
+    expect(startGame(CIVILIANS, () => 0).playerId).toBe(CIVILIANS.at(0)?.id)
+    expect(startGame(CIVILIANS, () => 0.999).playerId).toBe(CIVILIANS.at(-1)?.id)
+  })
+
+  it('rejects an empty cast', () => {
+    expect(() => startGame([], () => 0)).toThrow('without civilians')
   })
 })

@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CIVILIANS } from '../data/civilians'
-import { MAX_TURNS } from './actions'
 import { getOutcome } from './outcome'
-import { createInitialState } from './state'
+import { MAX_TURNS, createInitialState } from './state'
 import type { GameState } from './state'
 
 const PLAYER_ID = 'ren'
