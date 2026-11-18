@@ -11,9 +11,79 @@ interface ActionBarProps {
   onPlay: (action: Action) => void
 }
 
+interface PersonFieldProps {
+  targets: readonly Civilian[]
+  value: string
+  disabled: boolean
+  onChange: (id: string) => void
+}
+
+interface ShiftFieldProps {
+  shifts: Civilian['freeShifts']
+  value: Shift | undefined
+  disabled: boolean
+  onChange: (value: string) => void
+}
+
+interface ActionButtonProps {
+  label: string
+  disabled: boolean
+  onClick: () => void
+}
+
 const FIELD_STYLE = 'rounded border border-neutral-800 bg-black px-2 py-1 text-neutral-200'
 const BUTTON_STYLE =
-  'rounded border border-neutral-600 px-3 py-1 text-neutral-200 hover:bg-neutral-900 disabled:cursor-not-allowed disabled:opacity-40'
+  'w-28 rounded border border-neutral-600 px-3 py-1 text-neutral-200 hover:bg-neutral-900 disabled:cursor-not-allowed disabled:opacity-40'
+const ROW_STYLE =
+  'flex flex-wrap items-center gap-3 border-t border-neutral-900 py-2 first:border-t-0'
+
+function ActionButton({ label, disabled, onClick }: ActionButtonProps) {
+  return (
+    <button type="button" className={BUTTON_STYLE} disabled={disabled} onClick={onClick}>
+      {label}
+    </button>
+  )
+}
+
+function PersonField({ targets, value, disabled, onChange }: PersonFieldProps) {
+  return (
+    <label className="flex items-center gap-2">
+      pessoa
+      <select
+        className={FIELD_STYLE}
+        value={value}
+        disabled={disabled}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {targets.map((target) => (
+          <option key={target.id} value={target.id}>
+            {target.name} · {REGION_LABELS[target.region]}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}
+
+function ShiftField({ shifts, value, disabled, onChange }: ShiftFieldProps) {
+  return (
+    <label className="flex items-center gap-2">
+      turno
+      <select
+        className={FIELD_STYLE}
+        value={value ?? ''}
+        disabled={disabled}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {shifts.map((option) => (
+          <option key={option} value={option}>
+            {SHIFT_LABELS[option]}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}
 
 export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps) {
   const [chosenId, setChosenId] = useState('')
@@ -23,7 +93,6 @@ export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps)
     ? chosenId
     : (targets[0]?.id ?? '')
   const shift = chosenShift ?? player.freeShifts[0]
-  const selectedTarget = targets.find((target) => target.id === targetId)
 
   function handleShiftChange(value: string): void {
     const option = player.freeShifts.find((freeShift) => freeShift === value)
@@ -45,68 +114,31 @@ export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps)
     }
   }
 
+  const personField = (
+    <PersonField targets={targets} value={targetId} disabled={disabled} onChange={setChosenId} />
+  )
+
   return (
     <TerminalPanel title="AÇÕES">
-      <div className="flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2">
-          pessoa
-          <select
-            className={FIELD_STYLE}
-            value={targetId}
-            disabled={disabled}
-            onChange={(event) => setChosenId(event.target.value)}
-          >
-            {targets.map((target) => (
-              <option key={target.id} value={target.id}>
-                {target.name} · {REGION_LABELS[target.region]}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2">
-          turno
-          <select
-            className={FIELD_STYLE}
-            value={shift ?? ''}
-            disabled={disabled}
-            onChange={(event) => handleShiftChange(event.target.value)}
-          >
-            {player.freeShifts.map((option) => (
-              <option key={option} value={option}>
-                {SHIFT_LABELS[option]}
-              </option>
-            ))}
-          </select>
-        </label>
+      <div className={ROW_STYLE}>
+        <ActionButton label="Eliminar" disabled={disabled} onClick={eliminate} />
+        {personField}
+        <ShiftField
+          shifts={player.freeShifts}
+          value={shift}
+          disabled={disabled}
+          onChange={handleShiftChange}
+        />
       </div>
-      {selectedTarget && (
-        <p className="mt-3 text-neutral-400">
-          alvo atual: {selectedTarget.name} ({REGION_LABELS[selectedTarget.region]})
-        </p>
-      )}
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" className={BUTTON_STYLE} disabled={disabled} onClick={eliminate}>
-          Eliminar
-        </button>
-        <button type="button" className={BUTTON_STYLE} disabled={disabled} onClick={frame}>
-          Pista falsa
-        </button>
-        <button
-          type="button"
-          className={BUTTON_STYLE}
-          disabled={disabled}
-          onClick={() => onPlay({ type: 'alibi' })}
-        >
-          Álibi
-        </button>
-        <button
-          type="button"
-          className={BUTTON_STYLE}
-          disabled={disabled}
-          onClick={() => onPlay({ type: 'wait' })}
-        >
-          Esperar
-        </button>
+      <div className={ROW_STYLE}>
+        <ActionButton label="Pista falsa" disabled={disabled} onClick={frame} />
+        {personField}
+      </div>
+      <div className={ROW_STYLE}>
+        <ActionButton label="Álibi" disabled={disabled} onClick={() => onPlay({ type: 'alibi' })} />
+      </div>
+      <div className={ROW_STYLE}>
+        <ActionButton label="Esperar" disabled={disabled} onClick={() => onPlay({ type: 'wait' })} />
       </div>
     </TerminalPanel>
   )
