@@ -146,6 +146,7 @@ describe('game outcome', () => {
 
     expect(state.status).toBe('lost')
   })
+
   it('accepts no action once the game is over', () => {
     const lost = applyAction({ ...newGame(), turn: MAX_TURNS }, { type: 'wait' })
 

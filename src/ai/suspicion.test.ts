@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CIVILIANS } from '../data/civilians'
-import type { Clue } from '../game/types'
-import { createUniformBeliefs, updateBeliefs } from './suspicion'
+import type { Civilian, Clue } from '../game/types'
+import { clueLikelihood, createUniformBeliefs, updateBeliefs } from './suspicion'
 import type { Beliefs } from './suspicion'
 
 const NIGHT_DOWNTOWN_CLUE: Clue = { region: 'centro', shift: 'noite' }
@@ -23,7 +23,7 @@ describe('createUniformBeliefs', () => {
   })
 
   it('rejects an empty civilian list', () => {
-    expect(() => createUniformBeliefs([])).toThrow()
+    expect(() => createUniformBeliefs([])).toThrow('without civilians')
   })
 })
 
@@ -52,7 +52,7 @@ describe('updateBeliefs', () => {
   })
 
   it('rejects beliefs with no remaining probability', () => {
-    expect(() => updateBeliefs({}, CIVILIANS, NIGHT_DOWNTOWN_CLUE)).toThrow()
+    expect(() => updateBeliefs({}, CIVILIANS, NIGHT_DOWNTOWN_CLUE)).toThrow('without positive weight')
   })
 })
 
@@ -64,5 +64,31 @@ describe('watched clues', () => {
 
     expect(beliefOf(watched, 'takeshi')).toBeGreaterThan(beliefOf(unwatched, 'takeshi'))
     expect(beliefOf(watched, 'yuki')).toBeLessThan(beliefOf(unwatched, 'yuki'))
+  })
+})
+
+const LOCAL: Civilian = { id: 'local', name: 'Local', region: 'centro', freeShifts: ['noite'] }
+const OUTSIDER: Civilian = { id: 'outsider', name: 'Outsider', region: 'norte', freeShifts: ['manha'] }
+
+describe('clueLikelihood', () => {
+  it('multiplies the region and shift likelihoods', () => {
+    expect(clueLikelihood(LOCAL, { region: 'centro', shift: 'noite' })).toBeCloseTo(0.63, 6)
+    expect(clueLikelihood(LOCAL, { region: 'norte', shift: 'noite' })).toBeCloseTo(0.135, 6)
+    expect(clueLikelihood(LOCAL, { region: 'centro', shift: 'manha' })).toBeCloseTo(0.035, 6)
+  })
+
+  it('is far lower for a mismatch on a watched clue', () => {
+    const watched = { region: 'norte', shift: 'manha', watched: true } as const
+
+    expect(clueLikelihood(LOCAL, watched)).toBeCloseTo(0.0003, 6)
+  })
+})
+
+describe('updateBeliefs with known numbers', () => {
+  it('matches the posterior computed by hand with Bayes rule', () => {
+    const updated = updateBeliefs({ local: 0.5, outsider: 0.5 }, [LOCAL, OUTSIDER], NIGHT_DOWNTOWN_CLUE)
+    const expected = (0.5 * 0.63) / (0.5 * 0.63 + 0.5 * 0.0075)
+
+    expect(beliefOf(updated, 'local')).toBeCloseTo(expected, 8)
   })
 })
