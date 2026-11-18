@@ -68,6 +68,14 @@ src/
 
 As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 112 testes em 16 arquivos, ao lado do código (`*.test.ts` e `*.test.tsx`). Os de lógica cobrem regras e IA, e os de interface, feitos com Testing Library, cobrem o painel REGISTRO, os botões de ação e uma partida completa pela tela. A cobertura é de cerca de 99% das instruções e 94% dos ramos (`npm run coverage`).
 
+Algumas decisões de projeto:
+
+- `applyAction` recebe um estado e uma ação e devolve um estado novo, sem alterar o anterior. A interface só chama essa função, e por isso a lógica é testada sem abrir a tela.
+- A suspeita do detetive é bayesiana: a cada pista, a crença sobre cada civil é multiplicada pela chance daquela pista (região e turno) e depois normalizada. Uma pista em ponto vigiado pesa mais. Um dos testes confere o resultado de um caso calculado à mão.
+- O detetive vigia 3 pontos: os de maior chance de receber uma pista, somando o que ele acredita sobre cada suspeito.
+- Violações das regras viram `GameError`. A interface mostra uma mensagem em português e registra qualquer outro erro no console.
+- O sorteio do jogador pode ser trocado por um gerador fixo, o que permite testar o início da partida.
+
 ## 5. Como rodar
 
 `suspeita sobre você: █████████░ 91%`
