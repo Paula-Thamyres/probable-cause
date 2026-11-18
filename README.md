@@ -66,7 +66,7 @@ src/
   App.tsx       layout, modo difícil e mensagem de fim de jogo
 ```
 
-As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 94 testes em 14 arquivos, ao lado do código (`*.test.ts` e `*.test.tsx`). Os de lógica cobrem regras e IA, e os de interface, feitos com Testing Library, cobrem o painel REGISTRO e os botões de ação.
+As regras ficam em funções puras e o estado é imutável, então dá para testar tudo sem abrir a interface. São 97 testes em 14 arquivos, ao lado do código (`*.test.ts` e `*.test.tsx`). Os de lógica cobrem regras e IA, e os de interface, feitos com Testing Library, cobrem o painel REGISTRO e os botões de ação.
 
 ## 5. Como rodar
 
@@ -89,19 +89,19 @@ Saída do `npm test`:
  ✓ src/ai/countermeasures.test.ts (6 tests)
  ✓ src/ai/suspicion.test.ts (7 tests)
  ✓ src/ai/detective.test.ts (6 tests)
- ✓ src/game/state.test.ts (3 tests)
+ ✓ src/game/state.test.ts (5 tests)
  ✓ src/game/selectors.test.ts (5 tests)
  ✓ src/data/eventMessages.test.ts (6 tests)
  ✓ src/game/watch.test.ts (7 tests)
  ✓ src/game/accusation.test.ts (8 tests)
  ✓ src/game/events.test.ts (8 tests)
- ✓ src/game/actions.test.ts (16 tests)
+ ✓ src/game/actions.test.ts (17 tests)
  ✓ src/game/outcome.test.ts (5 tests)
  ✓ src/components/EventLog.test.tsx (5 tests)
  ✓ src/components/ActionBar.test.tsx (8 tests)
 
  Test Files  14 passed (14)
-      Tests  94 passed (94)
+      Tests  97 passed (97)
 ```
 
 O GitHub Actions roda lint, testes e build a cada envio para a `main`. O resultado aparece no selo do topo.
