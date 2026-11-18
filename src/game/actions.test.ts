@@ -1,25 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { createUniformBeliefs } from '../ai/suspicion'
-import type { Beliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
+import { PLAYER_ID, SEVEN_ARRESTED, SIX_ARRESTED, beliefOf, newGame, sum } from '../test/helpers'
 import { applyAction } from './actions'
 import { GameError } from './errors'
-import { MAX_TURNS, createInitialState } from './state'
+import { MAX_TURNS } from './state'
 import type { GameState } from './state'
-
-const PLAYER_ID = 'ren'
-
-function newGame(): GameState {
-  return createInitialState(CIVILIANS, PLAYER_ID)
-}
-
-function beliefOf(beliefs: Beliefs, id: string): number {
-  return beliefs[id] ?? 0
-}
-
-function sum(values: number[]): number {
-  return values.reduce((total, value) => total + value, 0)
-}
 
 function corneredState(): GameState {
   const rest = 0.05 / (CIVILIANS.length - 1)
@@ -36,9 +22,6 @@ function oneKillFromVictory(): GameState {
 
   return { ...newGame(), eliminatedIds, turn: 8, beliefs: createUniformBeliefs(alive) }
 }
-
-const SIX_ARRESTED = ['takeshi', 'aiko', 'mei', 'sora', 'kenji', 'yuki']
-const SEVEN_ARRESTED = [...SIX_ARRESTED, 'haru']
 
 function withArrested(arrestedIds: string[]): GameState {
   const alive = CIVILIANS.filter((civilian) => !arrestedIds.includes(civilian.id))

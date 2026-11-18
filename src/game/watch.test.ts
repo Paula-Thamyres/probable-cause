@@ -1,22 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { WATCH_COUNT, chooseWatches } from '../ai/detective'
-import type { Beliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
+import { PLAYER_ID, beliefOf, newGame } from '../test/helpers'
 import { applyAction } from './actions'
 import type { Action } from './actions'
-import { MAX_TURNS, createInitialState } from './state'
+import { MAX_TURNS } from './state'
 import type { GameState } from './state'
 
-const PLAYER_ID = 'ren'
 const STRIKE_ON_NAO: Action = { type: 'eliminate', targetId: 'nao', shift: 'manha' }
-
-function newGame(): GameState {
-  return createInitialState(CIVILIANS, PLAYER_ID)
-}
-
-function beliefOf(beliefs: Beliefs, id: string): number {
-  return beliefs[id] ?? 0
-}
 
 describe('detective watch', () => {
   it('starts on the most likely strike points', () => {

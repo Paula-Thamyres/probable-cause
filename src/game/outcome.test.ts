@@ -1,15 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { CIVILIANS } from '../data/civilians'
+import { PLAYER_ID, SEVEN_ARRESTED, newGame } from '../test/helpers'
 import { getOutcome } from './outcome'
-import { MAX_TURNS, createInitialState } from './state'
+import { MAX_TURNS } from './state'
 import type { GameState } from './state'
-
-const PLAYER_ID = 'ren'
-const SEVEN_ARRESTED = ['takeshi', 'aiko', 'mei', 'sora', 'kenji', 'yuki', 'haru']
-
-function newGame(): GameState {
-  return createInitialState(CIVILIANS, PLAYER_ID)
-}
 
 describe('getOutcome', () => {
   it('is playing while the game is on', () => {

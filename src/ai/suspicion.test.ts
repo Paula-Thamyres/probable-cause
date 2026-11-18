@@ -1,18 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { CIVILIANS } from '../data/civilians'
 import type { Civilian, Clue } from '../game/types'
+import { beliefOf, sum } from '../test/helpers'
 import { clueLikelihood, createUniformBeliefs, updateBeliefs } from './suspicion'
-import type { Beliefs } from './suspicion'
 
 const NIGHT_DOWNTOWN_CLUE: Clue = { region: 'centro', shift: 'noite' }
-
-function beliefOf(beliefs: Beliefs, id: string): number {
-  return beliefs[id] ?? 0
-}
-
-function sum(values: number[]): number {
-  return values.reduce((total, value) => total + value, 0)
-}
 
 describe('createUniformBeliefs', () => {
   it('gives every civilian the same share', () => {

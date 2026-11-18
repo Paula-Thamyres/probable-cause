@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { sum } from '../test/helpers'
 import { applyAlibi, relaxBeliefs } from './countermeasures'
-
-function sum(values: number[]): number {
-  return values.reduce((total, value) => total + value, 0)
-}
 
 describe('applyAlibi', () => {
   it('lowers the suspect and raises the others', () => {

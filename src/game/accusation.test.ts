@@ -1,25 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import type { Beliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
+import { PLAYER_ID, SEVEN_ARRESTED, beliefOf, newGame, sum } from '../test/helpers'
 import { applyAction } from './actions'
 import { ACCUSATION_THRESHOLD, resolveAccusation } from './accusation'
 import { getTargets } from './selectors'
-import { createInitialState } from './state'
 import type { GameState } from './state'
-
-const PLAYER_ID = 'ren'
-
-function newGame(): GameState {
-  return createInitialState(CIVILIANS, PLAYER_ID)
-}
-
-function beliefOf(beliefs: Beliefs, id: string): number {
-  return beliefs[id] ?? 0
-}
-
-function sum(values: number[]): number {
-  return values.reduce((total, value) => total + value, 0)
-}
 
 function withTopSuspect(topId: string, topBelief: number): GameState {
   const rest = (1 - topBelief) / (CIVILIANS.length - 1)
@@ -87,7 +72,7 @@ describe('accusation during a turn', () => {
   })
 
   it('is lost when too few targets remain to reach the goal', () => {
-    const arrestedIds = ['takeshi', 'aiko', 'mei', 'sora', 'kenji', 'yuki', 'haru']
+    const arrestedIds = SEVEN_ARRESTED
     const state = applyAction({ ...newGame(), arrestedIds }, { type: 'wait' })
 
     expect(state.status).toBe('lost')

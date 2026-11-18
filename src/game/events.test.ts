@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { normalizeBeliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
+import { newGame } from '../test/helpers'
 import { applyAction } from './actions'
 import type { Action } from './actions'
 import { withEvent } from './events'
-import { createInitialState } from './state'
 import type { GameState } from './state'
 import type { GameEvent } from './types'
 
-const PLAYER_ID = 'ren'
 const SUSPECT_ID = 'takeshi'
 const SUSPECT_WEIGHT = 0.95
 const FIRST_TURN = 1
@@ -30,10 +29,6 @@ const ACTION_CASES: readonly ActionCase[] = [
   { action: { type: 'alibi' }, event: { type: 'alibi', turn: FIRST_TURN } },
   { action: { type: 'wait' }, event: { type: 'waited', turn: FIRST_TURN } },
 ]
-
-function newGame(): GameState {
-  return createInitialState(CIVILIANS, PLAYER_ID)
-}
 
 function suspectBeliefs() {
   const share = (1 - SUSPECT_WEIGHT) / (CIVILIANS.length - 1)
