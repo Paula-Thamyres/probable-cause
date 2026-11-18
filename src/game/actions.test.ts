@@ -178,3 +178,14 @@ describe('rule violations', () => {
     expect(() => applyAction(newGame(), move)).toThrow(GameError)
   })
 })
+
+describe('frame', () => {
+  it('rejects a civilian that has no free shift to be framed in', () => {
+    const civilians = CIVILIANS.map((civilian) =>
+      civilian.id === 'aiko' ? { ...civilian, freeShifts: [] } : civilian,
+    )
+    const state = { ...newGame(), civilians }
+
+    expect(() => applyAction(state, { type: 'frame', civilianId: 'aiko' })).toThrow('no free shift')
+  })
+})
