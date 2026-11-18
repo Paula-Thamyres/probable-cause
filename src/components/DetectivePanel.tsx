@@ -8,7 +8,7 @@ interface DetectivePanelProps {
   civilians: readonly Civilian[]
   beliefs: Beliefs
   playerId: string
-  watch: Slot
+  watches: readonly Slot[]
   arrested: readonly Civilian[]
   hardMode: boolean
 }
@@ -28,7 +28,7 @@ export function DetectivePanel({
   civilians,
   beliefs,
   playerId,
-  watch,
+  watches,
   arrested,
   hardMode,
 }: DetectivePanelProps) {
@@ -55,9 +55,16 @@ export function DetectivePanel({
           </li>
         ))}
       </ul>
-      <p className="mt-3 border-t border-neutral-800 pt-2 text-neutral-200">
-        &gt; vigiando: {REGION_LABELS[watch.region]} · {SHIFT_LABELS[watch.shift]}
-      </p>
+      <div className="mt-3 border-t border-neutral-800 pt-2 text-neutral-200">
+        <p>&gt; vigiando:</p>
+        <ul className="pl-4">
+          {watches.map((slot) => (
+            <li key={`${slot.region}-${slot.shift}`}>
+              {REGION_LABELS[slot.region]} · {SHIFT_LABELS[slot.shift]}
+            </li>
+          ))}
+        </ul>
+      </div>
       {hardMode && (
         <p className="mt-1 text-neutral-200">
           &gt; nível de alerta: {ALERT_LABELS[getAlertLevel(beliefs, playerId)]}

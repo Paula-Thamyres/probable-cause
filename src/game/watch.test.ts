@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { chooseWatch } from '../ai/detective'
+import { WATCH_COUNT, chooseWatches } from '../ai/detective'
 import type { Beliefs } from '../ai/suspicion'
 import { CIVILIANS } from '../data/civilians'
 import { MAX_TURNS, applyAction } from './actions'
@@ -19,8 +19,11 @@ function beliefOf(beliefs: Beliefs, id: string): number {
 }
 
 describe('detective watch', () => {
-  it('starts on the most likely strike point', () => {
-    expect(newGame().watch).toEqual({ region: 'centro', shift: 'noite' })
+  it('starts on the most likely strike points', () => {
+    const { watches } = newGame()
+
+    expect(watches).toHaveLength(WATCH_COUNT)
+    expect(watches[0]).toEqual({ region: 'centro', shift: 'noite' })
   })
 
   it('marks the clue as watched when the player strikes inside the watch', () => {
@@ -33,15 +36,29 @@ describe('detective watch', () => {
     expect(state.clues[0]?.watched).toBe(true)
   })
 
+  it('marks the clue as watched on any of the watched points', () => {
+    const game: GameState = {
+      ...newGame(),
+      watches: [
+        { region: 'sul', shift: 'tarde' },
+        { region: 'centro', shift: 'noite' },
+      ],
+    }
+    const state = applyAction(game, { type: 'eliminate', targetId: 'takeshi', shift: 'noite' })
+
+    expect(state.clues[0]?.watched).toBe(true)
+  })
+
   it('leaves the clue unwatched outside the watch', () => {
-    const state = applyAction(newGame(), STRIKE_ON_NAO)
+    const game: GameState = { ...newGame(), watches: [{ region: 'sul', shift: 'tarde' }] }
+    const state = applyAction(game, STRIKE_ON_NAO)
 
     expect(state.clues[0]?.watched).toBeUndefined()
   })
 
   it('exposes the player more when the strike lands inside the watch', () => {
-    const exposed: GameState = { ...newGame(), watch: { region: 'leste', shift: 'manha' } }
-    const hidden: GameState = { ...newGame(), watch: { region: 'sul', shift: 'tarde' } }
+    const exposed: GameState = { ...newGame(), watches: [{ region: 'leste', shift: 'manha' }] }
+    const hidden: GameState = { ...newGame(), watches: [{ region: 'sul', shift: 'tarde' }] }
 
     const exposedBelief = beliefOf(applyAction(exposed, STRIKE_ON_NAO).beliefs, PLAYER_ID)
     const hiddenBelief = beliefOf(applyAction(hidden, STRIKE_ON_NAO).beliefs, PLAYER_ID)
@@ -49,18 +66,18 @@ describe('detective watch', () => {
     expect(exposedBelief).toBeGreaterThan(hiddenBelief)
   })
 
-  it('chooses the next watch from the updated beliefs', () => {
+  it('chooses the next watches from the updated beliefs', () => {
     const state = applyAction(newGame(), STRIKE_ON_NAO)
     const alive = CIVILIANS.filter((civilian) => !state.eliminatedIds.includes(civilian.id))
 
-    expect(state.watch).toEqual(chooseWatch(state.beliefs, alive))
+    expect(state.watches).toEqual(chooseWatches(state.beliefs, alive))
   })
 
-  it('stops moving the watch once the game is over', () => {
+  it('stops moving the watches once the game is over', () => {
     const game = { ...newGame(), turn: MAX_TURNS }
     const state = applyAction(game, { type: 'wait' })
 
     expect(state.status).toBe('lost')
-    expect(state.watch).toEqual(game.watch)
+    expect(state.watches).toEqual(game.watches)
   })
 })

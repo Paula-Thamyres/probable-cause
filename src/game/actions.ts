@@ -1,5 +1,5 @@
 import { applyAlibi, relaxBeliefs } from '../ai/countermeasures'
-import { chooseWatch } from '../ai/detective'
+import { chooseWatches } from '../ai/detective'
 import { updateBeliefs } from '../ai/suspicion'
 import { resolveAccusation } from './accusation'
 import { getActiveCivilians, getPlayer, getTargets } from './selectors'
@@ -47,8 +47,12 @@ function isSameSlot(a: Slot, b: Slot): boolean {
   return a.region === b.region && a.shift === b.shift
 }
 
+function isWatched(state: GameState, slot: Slot): boolean {
+  return state.watches.some((watched) => isSameSlot(slot, watched))
+}
+
 function makeClue(state: GameState, slot: Slot): Clue {
-  return isSameSlot(slot, state.watch) ? { ...slot, watched: true } : slot
+  return isWatched(state, slot) ? { ...slot, watched: true } : slot
 }
 
 function eliminate(state: GameState, targetId: string, shift: Shift): GameState {
@@ -138,7 +142,7 @@ function endTurn(state: GameState): GameState {
     ...accused,
     status,
     turn: accused.turn + 1,
-    watch: chooseWatch(accused.beliefs, getActiveCivilians(accused)),
+    watches: chooseWatches(accused.beliefs, getActiveCivilians(accused)),
   }
 }
 

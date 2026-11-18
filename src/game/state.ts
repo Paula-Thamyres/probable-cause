@@ -1,4 +1,4 @@
-import { chooseWatch } from '../ai/detective'
+import { chooseWatches } from '../ai/detective'
 import { createUniformBeliefs } from '../ai/suspicion'
 import type { Beliefs } from '../ai/suspicion'
 import type { Civilian, Clue, Slot } from './types'
@@ -14,7 +14,7 @@ export interface GameState {
   arrestedIds: readonly string[]
   clues: readonly Clue[]
   beliefs: Beliefs
-  watch: Slot
+  watches: readonly Slot[]
   turn: number
   status: GameStatus
 }
@@ -40,7 +40,7 @@ export function createInitialState(
     arrestedIds: [],
     clues: [],
     beliefs,
-    watch: chooseWatch(beliefs, civilians),
+    watches: chooseWatches(beliefs, civilians),
     turn: 1,
     status: 'playing',
   }

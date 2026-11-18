@@ -45,7 +45,7 @@ export default function App() {
           civilians={state.civilians}
           beliefs={state.beliefs}
           playerId={state.playerId}
-          watch={state.watch}
+          watches={state.watches}
           arrested={getArrested(state)}
           hardMode={hardMode}
         />
