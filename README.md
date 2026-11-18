@@ -4,6 +4,8 @@
 
 # probable-cause
 
+[![CI](https://github.com/Paula-Thamyres/probable-cause/actions/workflows/ci.yml/badge.svg)](https://github.com/Paula-Thamyres/probable-cause/actions/workflows/ci.yml) [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
+
 Jogo de dedução em que você é um civil escolhido ao acaso entre 12 e precisa se esconder de um detetive controlado por uma IA bayesiana, que recalcula a suspeita sobre cada civil a cada pista deixada.
 
 Jogue direto no navegador, sem instalar nada: [probable-cause-hazel.vercel.app](https://probable-cause-hazel.vercel.app/)
@@ -98,6 +100,14 @@ Saída do `npm test`:
  Test Files  12 passed (12)
       Tests  81 passed (81)
 ```
+
+O GitHub Actions roda lint, testes e build a cada envio para a `main`. O resultado aparece no selo do topo.
+
+## 6. Licença
+
+`suspeita sobre você: ██████████ 100%`
+
+Projeto distribuído sob a licença MIT. O texto completo está em [LICENSE](LICENSE).
 
 ---
 
