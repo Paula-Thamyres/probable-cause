@@ -65,7 +65,7 @@ describe('ActionBar', () => {
   it('eliminates the person and the shift the user picked', async () => {
     const { onPlay, user } = renderBar()
 
-    await user.selectOptions(screen.getAllByLabelText('pessoa')[0], SECOND_TARGET.id)
+    await user.selectOptions(screen.getByLabelText('pessoa para eliminar'), SECOND_TARGET.id)
     await user.selectOptions(screen.getByLabelText('turno'), 'noite')
     await user.click(screen.getByRole('button', { name: 'Eliminar' }))
 
@@ -79,7 +79,7 @@ describe('ActionBar', () => {
   it('leaves a false clue about the person the user picked', async () => {
     const { onPlay, user } = renderBar()
 
-    await user.selectOptions(screen.getAllByLabelText('pessoa')[1], SECOND_TARGET.id)
+    await user.selectOptions(screen.getByLabelText('pessoa para pista falsa'), SECOND_TARGET.id)
     await user.click(screen.getByRole('button', { name: 'Pista falsa' }))
 
     expect(onPlay).toHaveBeenCalledWith({ type: 'frame', civilianId: SECOND_TARGET.id })

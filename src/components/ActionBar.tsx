@@ -13,6 +13,7 @@ interface ActionBarProps {
 
 interface PersonFieldProps {
   targets: readonly Civilian[]
+  accessibleName: string
   value: string
   disabled: boolean
   onChange: (id: string) => void
@@ -45,12 +46,13 @@ function ActionButton({ label, disabled, onClick }: ActionButtonProps) {
   )
 }
 
-function PersonField({ targets, value, disabled, onChange }: PersonFieldProps) {
+function PersonField({ accessibleName, targets, value, disabled, onChange }: PersonFieldProps) {
   return (
     <label className="flex items-center gap-2">
       pessoa
       <select
         className={FIELD_STYLE}
+        aria-label={accessibleName}
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
@@ -114,15 +116,21 @@ export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps)
     }
   }
 
-  const personField = (
-    <PersonField targets={targets} value={targetId} disabled={disabled} onChange={setChosenId} />
+  const personField = (accessibleName: string) => (
+    <PersonField
+      accessibleName={accessibleName}
+      targets={targets}
+      value={targetId}
+      disabled={disabled}
+      onChange={setChosenId}
+    />
   )
 
   return (
     <TerminalPanel title="AÇÕES">
       <div className={ROW_STYLE}>
         <ActionButton label="Eliminar" disabled={disabled} onClick={eliminate} />
-        {personField}
+        {personField('pessoa para eliminar')}
         <ShiftField
           shifts={player.freeShifts}
           value={shift}
@@ -132,7 +140,7 @@ export function ActionBar({ player, targets, disabled, onPlay }: ActionBarProps)
       </div>
       <div className={ROW_STYLE}>
         <ActionButton label="Pista falsa" disabled={disabled} onClick={frame} />
-        {personField}
+        {personField('pessoa para pista falsa')}
       </div>
       <div className={ROW_STYLE}>
         <ActionButton label="Álibi" disabled={disabled} onClick={() => onPlay({ type: 'alibi' })} />
